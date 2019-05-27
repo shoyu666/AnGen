@@ -2,6 +2,14 @@
 
 
 ```java
+todo
+validation
+@Default
+...
+自动编译
+```
+
+```java
 @Builder
 public interface Person {
     @NotNull
