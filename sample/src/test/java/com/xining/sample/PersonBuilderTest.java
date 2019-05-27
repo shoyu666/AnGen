@@ -6,13 +6,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class PersonBuilderTest {
+
     @Test
-    public void should_return_person_with_default_male() {
+    public void personBuilder() {
         Person person = PersonBuilder.of().name("super woman").age(33).build();
         assertEquals("super woman", person.name());
         assertEquals(33, person.age());
         assertFalse(person.male());
-    }    
+    }
+
+    @Test
+    public void should_return_person_with_default_male() {
+//        Person person = PersonBuilder.of().name("super woman").age(33).build();
+//        assertEquals("super woman", person.name());
+//        assertEquals(33, person.age());
+//        assertFalse(person.male());
+    }
 
     @Test
     public void should_complain_missing_name() {

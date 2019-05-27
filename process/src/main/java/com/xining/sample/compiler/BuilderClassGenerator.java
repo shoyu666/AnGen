@@ -2,13 +2,17 @@ package com.xining.sample.compiler;
 
 import com.squareup.javapoet.*;
 import com.xining.sample.ProxyUtil;
+import com.xining.sample.ValidatorUtil;
 
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.*;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Builder class 生成器
@@ -123,19 +127,26 @@ public class BuilderClassGenerator {
      * @param builder
      */
     private void addInterfaceImpl(TypeSpec.Builder builder) {
+        FieldSpec fieldMap = FieldSpec.builder(ParameterizedTypeName.get(ClassName.get(HashMap.class), ClassName.get(String.class), ClassName.get(Object.class)), "fieldMap", Modifier.PRIVATE).initializer("new $T()", HashMap.class).build();
+        builder.addField(fieldMap);
         MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("invoke").
                 addModifiers(Modifier.PUBLIC).
+                addException(NoSuchFieldException.class).
+                addException(IllegalAccessException.class).
                 returns(Object.class).
                 addParameter(Object.class, "proxy").
                 addParameter(Method.class, "method").
                 addParameter(Object[].class, "args").
                 addAnnotation(Override.class).
-                addStatement("String methodName = method.getName();");
-        for (BuilderAnnotatedClassMethod method : methods) {
-            String methodName = method.getMethodName();
-            methodBuilder.addStatement("if (methodName.equals($S)) {return $N;}", methodName, methodName);
-        }
-        methodBuilder.addStatement("return null");
+                addStatement("String methodName = method.getName()");
+
+        methodBuilder.addStatement("Object value = fieldMap.get(methodName)");
+        methodBuilder.beginControlFlow("if(value == null)");
+        methodBuilder.addStatement("$T field = this.getClass().getDeclaredField(methodName)", Field.class);
+        methodBuilder.addStatement("field.setAccessible(true)");
+        methodBuilder.addStatement("fieldMap.put(methodName, value = field.get(this))");
+        methodBuilder.endControlFlow();
+        methodBuilder.addStatement("return value");
         builder.addMethod(methodBuilder.build());
     }
 
@@ -158,6 +169,7 @@ public class BuilderClassGenerator {
     private void addBuildMethod(TypeSpec.Builder builder) {
         ClassName clazzName = ClassName.get(packageName, className);
         MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("build")
+                .addStatement("$T.validate(this)", ValidatorUtil.class)
                 .addStatement("return $T.proxy(this,$T.class)", ProxyUtil.class, clazzName)
                 .returns(clazzName);
         builder.addMethod(methodBuilder.build());

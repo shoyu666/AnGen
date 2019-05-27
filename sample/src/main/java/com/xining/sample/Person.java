@@ -10,12 +10,11 @@ import java.util.List;
  */
 @Builder
 public interface Person {
-    @NotNull
+    @NotNull(message = "name should not be null")
     String name();
-    @NotNull
+    @NotNull(message = "age should not be null")
     int age();
-    @NotNull
+    @NotNull(message = "male should not be null")
     boolean male();
-    @NotNull
     List<Book> books();
 }

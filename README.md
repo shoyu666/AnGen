@@ -13,24 +13,50 @@ validation
 ```java
 @Builder
 public interface Person {
-    @NotNull
+    @NotNull(message = "name should not be null")
     String name();
-    @NotNull
+    @NotNull(message = "age should not be null")
     int age();
-    @NotNull
+    @NotNull(message = "male should not be null")
     boolean male();
-    @NotNull
     List<Book> books();
 }
 ```
 生成
 
 ```java
+//  This codes are generated automatically. Do not modify!
+package com.xining.sample;
+
+import com.xining.sample2.Book;
+import java.lang.IllegalAccessException;
+import java.lang.NoSuchFieldException;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
+import javax.validation.constraints.NotNull;
+
 public class PersonBuilder implements InvocationHandler {
+  private HashMap<String, Object> fieldMap = new HashMap();
+
+  @NotNull(
+      message = "name should not be null"
+  )
   private String name;
 
+  @NotNull(
+      message = "age should not be null"
+  )
   private int age;
 
+  @NotNull(
+      message = "male should not be null"
+  )
   private boolean male;
 
   private List<Book> books;
@@ -47,41 +73,41 @@ public class PersonBuilder implements InvocationHandler {
   }
 
   @Override
-  public Object invoke(Object proxy, Method method, Object[] args) {
-    String methodName = method.getName();;
-    if (methodName.equals("name")) {return name;};
-    if (methodName.equals("age")) {return age;};
-    if (methodName.equals("male")) {return male;};
-    if (methodName.equals("books")) {return books;};
-    return null;
+  public Object invoke(Object proxy, Method method, Object[] args) throws NoSuchFieldException, IllegalAccessException {
+    String methodName = method.getName();
+    Object value = fieldMap.get(methodName);
+    if(value == null) {
+      Field field = this.getClass().getDeclaredField(methodName);
+      field.setAccessible(true);
+      fieldMap.put(methodName, value = field.get(this));
+    }
+    return value;
   }
 
-  @NotNull
   PersonBuilder name(String name) {
     this.name = name;
     return this;
   }
 
-  @NotNull
   PersonBuilder age(int age) {
     this.age = age;
     return this;
   }
 
-  @NotNull
   PersonBuilder male(boolean male) {
     this.male = male;
     return this;
   }
 
-  @NotNull
   PersonBuilder books(List<Book> books) {
     this.books = books;
     return this;
   }
 
   Person build() {
+    ValidatorUtil.validate(this);
     return ProxyUtil.proxy(this,Person.class);
   }
 }
+
 ```

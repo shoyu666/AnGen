@@ -34,12 +34,13 @@ public class BuilderAnnotatedClassMethod {
                 .addStatement("this.$N = $N", methodName, methodName)
                 .addStatement("return this")
                 .returns(builderClassName);
+        FieldSpec.Builder fieldBuilder = FieldSpec.builder(ParameterizedTypeName.get(returnType), methodName, Modifier.PRIVATE);
         if (annotationMirrors != null && annotationMirrors.size() > 0) {
             for (AnnotationMirror annotationMirror : annotationMirrors) {
-                methodBuilder.addAnnotation(AnnotationSpec.get(annotationMirror));
+                fieldBuilder.addAnnotation(AnnotationSpec.get(annotationMirror));
             }
         }
         builder.addMethod(methodBuilder.build());
-        builder.addField(ParameterizedTypeName.get(returnType), methodName, Modifier.PRIVATE);
+        builder.addField(fieldBuilder.build());
     }
 }
