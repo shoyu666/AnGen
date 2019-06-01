@@ -1,0 +1,8 @@
+com\xining\angen\annotation\compiler\builder\BuilderMethod.class
+com\xining\angen\annotation\compiler\builder\clazz\ClassBuilderClazz$1.class
+com\xining\angen\annotation\compiler\BuilderProcessor.class
+com\xining\angen\annotation\compiler\builder\clazz\ClassBuilderClazz.class
+com\xining\angen\annotation\compiler\builder\interfac\AnnotationBuilderClazz$1.class
+com\xining\angen\annotation\compiler\builder\BaseBuilderClazz.class
+com\xining\angen\annotation\compiler\builder\interfac\AnnotationBuilderClazz.class
+META-INF\services\javax.annotation.processing.Processor

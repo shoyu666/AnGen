@@ -1,0 +1,5 @@
+com\xining\angen\annotation\Builder.class
+com\xining\angen\annotation\Default.class
+com\xining\angen\annotation\InvalidValidaException.class
+com\xining\angen\annotation\ProxyUtil.class
+com\xining\angen\annotation\ValidatorUtil.class

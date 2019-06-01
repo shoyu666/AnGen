@@ -26,7 +26,7 @@ public interface Person {
 
 ```java
 //  This codes are generated automatically. Do not modify!
-package com.xining.sample;
+package com.xining.annotation;
 
 import com.xining.sample2.Book;
 import java.lang.IllegalAccessException;

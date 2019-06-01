@@ -24,14 +24,20 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.sample</groupId>
-            <artifactId>lib</artifactId>
+            <groupId>com.xining.angen</groupId>
+            <artifactId>annotation</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>2.0.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
     <build>
@@ -46,8 +52,8 @@
                     <encoding>utf-8</encoding>
                     <annotationProcessorPaths>
                         <annotationProcessorPath>
-                            <groupId>com.sample</groupId>
-                            <artifactId>process</artifactId>
+                            <groupId>com.xining.angen</groupId>
+                            <artifactId>generate</artifactId>
                             <version>${project.version}</version>
                         </annotationProcessorPath>
                     </annotationProcessorPaths>
