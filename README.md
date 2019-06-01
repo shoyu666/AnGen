@@ -1,15 +1,5 @@
 # Java Annotation Processor  Demo
 
-
-```java
-todo
-validation
-@Default
-合法校验(比如name() name(参数)等情况的处理)
-...
-自动编译
-```
-
 ```java
 @Builder
 public interface Person {
